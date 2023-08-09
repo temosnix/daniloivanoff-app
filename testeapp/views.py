@@ -13,10 +13,12 @@ def index(request):
    REDIRECT_URI = os.getenv("REDIRECT_URI")
 
    if CLIENT_ID == "3610569796440259":
-       texto = "3610569796440259"
+      texto = "3610569796440259"
+      return HttpResponse('certo')
+   else:
+      return HttpResponse('errado')
 
-
-   return HttpResponse(texto)
+   
 
 
 
