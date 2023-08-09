@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from dotenv import load_dotenv
 import os
+from django.http import HttpResponse
+
 
 
 
@@ -10,7 +12,7 @@ def index(request):
    CLIENT_SECRET = os.getenv("CLIENT_SECRET")
    REDIRECT_URI = os.getenv("REDIRECT_URI")
 
-   
-   return render (request, 'index.html') 
+
+   return HttpResponse(CLIENT_ID)
 
 
