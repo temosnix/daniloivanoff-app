@@ -24,4 +24,5 @@ urlpatterns = [
     path('uri/', uri),
     path('post/', items_post),
     path('notifications/', notifications),
+    path('notification/', notifications),
 ]
