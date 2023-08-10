@@ -34,13 +34,15 @@ def notification(request):
         
         items_response = requests.get(f'https://api.mercadolibre.com/users/{user["id"]}/items/search', headers={'Authorization': f'Bearer {access_token}'})
         items = items_response.json().get('results', [])
-        
+       
         result = []
         for item_id in items:
             item_response = requests.get(f'https://api.mercadolibre.com/items/{item_id}', headers={'Authorization': f'Bearer {access_token}'})
             result.append(item_response.json())
-        
+         
+         
         if result:
+          
             return render(request, 'notification.html', {'items': result})
         else:
             return HttpResponse('No items were found :(', status=404)
