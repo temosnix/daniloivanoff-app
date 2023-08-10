@@ -5,8 +5,8 @@ from django.http import HttpResponse
 import requests
 
 
-
-
+def notification (request):
+    return render (request, 'notifications.html')
 
 def index(request):
    load_dotenv()
@@ -21,7 +21,7 @@ def uri (request):
    return render(request, 'uri.html')
 
 
-def notification(request):
+def items_post(request):
 
     try:
         #access_token = request.META.get('HTTP_ACCESS_TOKEN')
@@ -43,7 +43,7 @@ def notification(request):
          
         if result:
           
-            return render(request, 'notification.html', {'items': result})
+            return render(request, 'post.html', {'items': result})
         else:
             return HttpResponse('No items were found :(', status=404)
         
