@@ -37,7 +37,7 @@ def notifications (request):
       
 
       time.sleep(0.5)
-      response_data = {'Ok'}
+      response_data = {'message': 'Ok'}
       return JsonResponse(response_data, status=200)
    
  
