@@ -1,3 +1,4 @@
+import time
 import os
 import json
 import requests
@@ -14,27 +15,10 @@ def notifications (request):
    if request.method == 'POST':
       data = json.loads(request.body)
 
-      _id = data.get('_id')
-      resource = data.get('resource')
-      user_id = data.get('user_id')
-      topic = data.get('topic')
-      application_id = data.get('application_id')
-      attempts = data.get('attempts')
-      sent = data.get('sent')
-      received = data.get('received')
 
-        # Exemplo de processamento (imprimindo os valores)
-      print("_id:", _id)
-      print("resource:", resource)
-      print("user_id:", user_id)
-      print("topic:", topic)
-      print("application_id:", application_id)
-      print("attempts:", attempts)
-      print("sent:", sent)
-      print("received:", received)
-
-      response_data = {'message': 'Requisição POST processada com sucesso'}
-      return JsonResponse(response_data, status=200)
+      time.sleep(0.5)
+      
+      return JsonResponse('Ok', status=200)
  
 
 def index(request):
