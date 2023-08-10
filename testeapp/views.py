@@ -14,10 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 def notifications (request):
    if request.method == 'POST':
       data = json.loads(request.body)
-
-
+      topic = data.get('topic')
+      print(topic)
       time.sleep(0.5)
-      response_data = {'message': 'Requisição POST processada com sucesso'}
+      response_data = {'message': 'Ok'}
       return JsonResponse(response_data, status=200)
    
  
