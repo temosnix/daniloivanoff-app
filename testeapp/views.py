@@ -17,8 +17,8 @@ def notifications (request):
 
 
       time.sleep(0.5)
-      
-      return JsonResponse('Ok', status=200)
+      response_data = {'message': 'Requisição POST processada com sucesso'}
+      return JsonResponse(response_data, status=200)
  
 
 def index(request):
