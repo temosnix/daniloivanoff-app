@@ -5,7 +5,7 @@ from django.http import HttpResponse
 import requests
 
 
-def notification (request):
+def notifications (request):
     return render (request, 'notifications.html')
 
 def index(request):
