@@ -23,5 +23,5 @@ urlpatterns = [
     path('',index),
     path('uri/', uri),
     path('post/', items_post),
-    path('notification', notifications, name= 'notifications')
+    path('notifications/', notifications, name= 'notifications')
 ]
