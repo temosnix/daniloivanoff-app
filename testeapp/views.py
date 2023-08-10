@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 
 
+
 def index(request):
    load_dotenv()
    CLIENT_ID = os.getenv("CLIENT_ID")
@@ -17,6 +18,13 @@ def index(request):
       return HttpResponse('certo')
    else:
       return HttpResponse('errado')
+   
+def uri (request):
+   return render(request, 'uri.html')
+
+
+def notification(request):
+   return render(request, 'notification.html')
 
    
 
