@@ -25,6 +25,7 @@ def notifications (request):
       received = data.get('received')
 
         # Exemplo de processamento (imprimindo os valores)
+      print('-----------')
       print("_id:", id)
       print("resource:", resource)
       print("user_id:", user_id)
