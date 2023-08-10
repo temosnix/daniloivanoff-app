@@ -15,10 +15,30 @@ def notifications (request):
    if request.method == 'POST':
       data = json.loads(request.body)
       topic = data.get('topic')
-      print(topic)
+      id = data.get('_id')
+      resource = data.get('resource')
+      user_id = data.get('user_id')
+      topic = data.get('topic')
+      application_id = data.get('application_id')
+      attempts = data.get('attempts')
+      sent = data.get('sent')
+      received = data.get('received')
+
+        # Exemplo de processamento (imprimindo os valores)
+      print("_id:", id)
+      print("resource:", resource)
+      print("user_id:", user_id)
+      print("topic:", topic)
+      print("application_id:", application_id)
+      print("attempts:", attempts)
+      print("sent:", sent)
+      print("received:", received)
+
+      
+
       time.sleep(0.5)
-      response_data = {'message': 'Ok'}
-      return JsonResponse(response_data, status=200)
+   
+      return JsonResponse("Ok", status=200)
    
  
 
