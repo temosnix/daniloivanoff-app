@@ -12,7 +12,7 @@ from testeapp.models import Access_token
 
 
 
-#@csrf_exempt
+@csrf_exempt
 def notifications(request):
     if request.method == 'POST':
         try:
