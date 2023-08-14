@@ -21,12 +21,12 @@ def notifications(request):
             # Fazer algo com os dados recebidos, se necessário
 
             # Responder com um JSON de confirmação e status 200 OK
-            response_data = {"message": "Received and processed the JSON data successfully"}
-            return JsonResponse(response_data, status=200)
+            time.sleep(0.5)
+            return HttpResponse('Ok', status=200)
         except json.JSONDecodeError:
             # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request
-            error_data = {"error": "Invalid JSON format"}
-            return JsonResponse(error_data, status=400)
+         
+            return HttpResponse('Formato invalido', status=400)
     else:
         # Responder com erro e status 405 Method Not Allowed se o método não for POST
         error_data = {"error": "Método não permitido"}
