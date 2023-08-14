@@ -30,7 +30,8 @@ def notifications(request):
     else:
         # Responder com erro e status 405 Method Not Allowed se o método não for POST
         error_data = {"error": "Método não permitido"}
-        return JsonResponse(error_data, status=405)
+        return HttpResponse('Erro', status=500)
+        #return JsonResponse(error_data, status=405)
    
  
 
