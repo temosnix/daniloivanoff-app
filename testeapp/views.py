@@ -17,7 +17,7 @@ def notifications(request):
         try:
             # Receber o JSON do corpo do pedido
             data = json.loads(request.body)
-
+            print("JSON recebido:", data)
             # Fazer algo com os dados recebidos, se necessário
 
             # Responder com um JSON de confirmação e status 200 OK
@@ -29,7 +29,7 @@ def notifications(request):
             return JsonResponse(error_data, status=400)
     else:
         # Responder com erro e status 405 Method Not Allowed se o método não for POST
-        error_data = {"error": "Method not allowed"}
+        error_data = {"error": "Método não permitido"}
         return JsonResponse(error_data, status=405)
    
  
