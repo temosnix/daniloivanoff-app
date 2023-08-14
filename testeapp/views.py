@@ -1,7 +1,7 @@
 import time
 import os
 import json
-import requests
+from requests import request
 from dotenv import load_dotenv
 from django.shortcuts import render
 from helpers import Tempo
