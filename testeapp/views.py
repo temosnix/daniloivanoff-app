@@ -12,7 +12,7 @@ from testeapp.models import Access_token
 
 
 
-@csrf_exempt
+#@csrf_exempt
 def notifications(request):
     if request.method == 'POST':
         try:
@@ -30,7 +30,7 @@ def notifications(request):
             return HttpResponse('Formato invalido', status=400)
     else:
         # Responder com erro e status 405 Method Not Allowed se o método não for POST
-        error_data = {"error": "Método não permitido"}
+        
         return HttpResponse('Erro', status=405)
         
    
