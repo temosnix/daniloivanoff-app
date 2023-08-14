@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from testeapp.views import index, uri, items_post, notifications
+from testeapp.views import index, uri, items_post, notifications 
+from helpers import Tempo
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +27,7 @@ urlpatterns = [
     path('post/', items_post),
     path('notifications/', notifications),
     path('notification/', notifications),
+    path('teste/', Tempo),
+    
+
 ]

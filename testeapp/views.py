@@ -4,9 +4,10 @@ import json
 import requests
 from dotenv import load_dotenv
 from django.shortcuts import render
+from helpers import Tempo
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from testeapp.models import Access_token
 
 
 
@@ -60,9 +61,12 @@ def items_post(request):
 
     try:
         #access_token = request.META.get('HTTP_ACCESS_TOKEN')
-        access_token = 'APP_USR-2417001236894079-081010-aaec5d1c2406664ec45fb0867b1b0058-34977269'
+        #access_token = 'APP_USR-2417001236894079-081010-aaec5d1c2406664ec45fb0867b1b0058-34977269'
         #meli_object = MeliObject(access_token)
-
+        Tempo()
+        tabela_refresh = Access_token.objects.get(id=1)
+    
+        access_token = tabela_refresh.AC_token
 
         user_response = requests.get('https://api.mercadolibre.com/users/me', headers={'Authorization': f'Bearer {access_token}'})
         user = user_response.json()
