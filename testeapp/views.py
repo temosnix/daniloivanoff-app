@@ -12,35 +12,25 @@ from testeapp.models import Access_token
 
 
 @csrf_exempt
-def notifications (request):
-   if request.method == 'POST':
-      data = json.loads(request.body)
-      topic = data.get('topic')
-      id = data.get('_id')
-      resource = data.get('resource')
-      user_id = data.get('user_id')
-      topic = data.get('topic')
-      application_id = data.get('application_id')
-      attempts = data.get('attempts')
-      sent = data.get('sent')
-      received = data.get('received')
+def notifications(request):
+    if request.method == 'POST':
+        try:
+            # Receber o JSON do corpo do pedido
+            data = json.loads(request.body)
 
-        # Exemplo de processamento (imprimindo os valores)
-      print('-----------')
-      print("_id:", id)
-      print("resource:", resource)
-      print("user_id:", user_id)
-      print("topic:", topic)
-      print("application_id:", application_id)
-      print("attempts:", attempts)
-      print("sent:", sent)
-      print("received:", received)
+            # Fazer algo com os dados recebidos, se necessário
 
-      
-
-      time.sleep(0.5)
-      response_data = {'message': 'Ok'}
-      return JsonResponse(response_data, status=200)
+            # Responder com um JSON de confirmação e status 200 OK
+            response_data = {"message": "Received and processed the JSON data successfully"}
+            return JsonResponse(response_data, status=200)
+        except json.JSONDecodeError:
+            # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request
+            error_data = {"error": "Invalid JSON format"}
+            return JsonResponse(error_data, status=400)
+    else:
+        # Responder com erro e status 405 Method Not Allowed se o método não for POST
+        error_data = {"error": "Method not allowed"}
+        return JsonResponse(error_data, status=405)
    
  
 
