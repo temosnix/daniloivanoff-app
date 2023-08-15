@@ -18,7 +18,8 @@ def notifications(request):
         try:
             # Receber o JSON do corpo do pedido
             data = json.loads(request.body)
-            print("JSON recebido:", data)
+            formatted_json = json.dumps(data, indent=4)
+            print("JSON recebido:\n", formatted_json)
             # Fazer algo com os dados recebidos, se necessário
 
             # Responder com um JSON de confirmação e status 200 OK
