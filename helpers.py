@@ -177,7 +177,7 @@ def tratar_info(data):
 
                 payload = {}
                 headers = {
-                'Authorization': 'Bearer APP_USR-2417001236894079-082308-22903b456588aa4ac3402acec2b4242e-34977269'
+                'Authorization': f'Bearer {access_token}'
                 }
 
                 response = requests.request("GET", url, headers=headers, data=payload)
@@ -193,4 +193,19 @@ def tratar_info(data):
                 else:
                     print(f'erro ao procurar a pergunta. Erro : {response.status_code}')
 
+            else:
+                if topico == 'messages':
+                    resource = j_dict["resource"]
+                    print(resource)
+                    url =f"https://api.mercadolibre.com/messages/{resource}?tag=post_sale"
 
+                    payload = {}
+                    headers = {
+                    'Authorization': f'Bearer {access_token}'
+                    }
+
+                    response = requests.request("GET", url, headers=headers, data=payload)
+
+                    print(response.text)
+                else:
+                    print(f'topico nao encontrado {topico} ')
