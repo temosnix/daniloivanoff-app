@@ -5,7 +5,7 @@ import requests
 from requests import request
 from dotenv import load_dotenv
 from django.shortcuts import render
-from helpers import Tempo
+from helpers import Tempo , tratar_info
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from testeapp.models import Access_token
@@ -16,15 +16,14 @@ from testeapp.models import Access_token
 def notifications(request):
     if request.method == 'POST':
         try:
-            # Receber o JSON do corpo do pedido
             data = json.loads(request.body)
             formatted_json = json.dumps(data, indent=4)
             print("JSON recebido:\n", formatted_json)
-            # Fazer algo com os dados recebidos, se necessário
-
-            # Responder com um JSON de confirmação e status 200 OK
+           
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
+        
+            tratar_info(data) 
         except json.JSONDecodeError:
             # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request
          

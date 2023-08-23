@@ -26,4 +26,26 @@ class Access_token(models.Model):
     def __str__(self):
         return self.AC_token
 
+class vendas_dfast (models.Model):
+    lojas = models.ForeignKey(Lojas,on_delete=models.CASCADE)
+    Id_compra = models.CharField(max_length=30)
+    Id_anuncio = models.CharField(max_length=30)
+    Nome_cliente = models.CharField(max_length=50)
+    Titulo = models.CharField(max_length=70)
+    Data_compra = models.CharField(max_length=10)
+    Quantidade = models.CharField(max_length=5)
+    ENTREGUE_CHOICES = [
+        ('true', 'Entregue'),
+        ('false', 'Não Entregue'),
+        ('null', 'Não Enviado'),
+    ]
+    Entregue = models.CharField(
+        max_length=5,
+        choices=ENTREGUE_CHOICES,
+        default='null'
+    )
+
+    def __str__(self):
+        return self.Id_compra
+
 
