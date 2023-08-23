@@ -108,7 +108,13 @@ def tratar_info(data):
 
             print(response.text)
 
-            if response.status_code == 200:
+            date_created = j_dict['date_created']
+            data_obj = datetime.strptime(date_created, "%Y-%m-%dT%H:%M:%S.%f%z")
+            dia_compra = data_obj.day
+            data_hora_atual = datetime.now()
+            dia_atual = data_hora_atual.day
+
+            if response.status_code == 200 and dia_atual == dia_compra :
 
                 arquivo = response.json()
                 id_compra = arquivo["id"]
