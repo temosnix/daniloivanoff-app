@@ -85,7 +85,7 @@ def tratar_info(data):
     j_dict = json.loads(data)
     attempts = j_dict.loads['attempts']
 
-    if attempts == 1 :
+    if attempts == '1' :
         topico = j_dict.loads['topic']
 
         tabela_refresh = Access_token.objects.get(id=1)
@@ -129,7 +129,7 @@ def tratar_info(data):
                     }
 
                     response = requests.request("GET", url, headers=headers, data=payload)
-                    
+
                     if response.status_code == 200:
                         status = response.json()["conversation_status"]['status']
                         if status == 'active':
