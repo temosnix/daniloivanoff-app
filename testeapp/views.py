@@ -24,7 +24,7 @@ def notifications(request):
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
         
-
+            print('sai do tratar_info')
 
         except json.JSONDecodeError:
             # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request

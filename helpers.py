@@ -83,7 +83,7 @@ def Tempo ():
 
 def tratar_info(j_dict):
     
-   
+    
     attempts = j_dict['attempts']
     print(f'entrei no tratar_info, attempts = {attempts}')
     if attempts == '1' :
@@ -209,3 +209,4 @@ def tratar_info(j_dict):
                     print(response.text)
                 else:
                     print(f'topico nao encontrado {topico} ')
+    
