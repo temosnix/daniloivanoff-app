@@ -84,7 +84,7 @@ def Tempo ():
 def tratar_info(j_dict):
     
    
-    attempts = j_dict.loads['attempts']
+    attempts = j_dict['attempts']
     print(f'entrei no tratar_info, attempts = {attempts}')
     if attempts == '1' :
         topico = j_dict.loads['topic']
