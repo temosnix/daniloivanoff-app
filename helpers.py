@@ -82,9 +82,10 @@ def Tempo ():
     return HttpResponse(segundos)
 
 def tratar_info(data):
+    
     j_dict = json.loads(data)
     attempts = j_dict.loads['attempts']
-
+    print(f'entrei no tratar_info, attempts = {attempts}')
     if attempts == '1' :
         topico = j_dict.loads['topic']
 
