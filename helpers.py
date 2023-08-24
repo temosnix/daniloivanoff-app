@@ -119,13 +119,22 @@ def tratar_info(j_dict):
 
             response = requests.request("GET", url, headers=headers, data=payload)
 
-            print(response.text)
+            #print(response.text)
             j_dict = response.json()
+
+            primeiro_item = j_dict["order_items"][0]["item"]
+            item_id = primeiro_item["id"]
+            item_title = primeiro_item["title"]
+            quantidade = j_dict["order_items"][0]["quantity"]
+            
+
             date_created = j_dict['date_created']
             data_obj = datetime.strptime(date_created, "%Y-%m-%dT%H:%M:%S.%f%z")
+            data_compra = data_obj.strftime("%d-%m-%y")
             dia_compra = data_obj.day
             data_hora_atual = datetime.now()
             dia_atual = data_hora_atual.day
+            print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {item_id} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
 
             if response.status_code == 200 and dia_atual == dia_compra :
                 print( ' codigo : 200 e compra do mesmo dia')
