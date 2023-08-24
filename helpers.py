@@ -89,7 +89,7 @@ def tratar_info(j_dict):
 
     print(f'entrei no tratar_info, attempts = {attempts}')
     print(f'topico = {topico}')
-    if attempts == '1' :
+    if attempts == 1 :
         print('acessando attempts 1')
 
         tabela_refresh = Access_token.objects.get(id=1)
