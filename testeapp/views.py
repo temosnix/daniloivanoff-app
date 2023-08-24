@@ -20,6 +20,7 @@ def notifications(request):
             data_hora_atual = datetime.now()
             seg = data_hora_atual.second
             mls = data_hora_atual.microsecond
+            print('___________________________________')
             print(f'{seg}:{mls}')
             data = json.loads(request.body)
             formatted_json = json.dumps(data, indent=4)
@@ -27,6 +28,8 @@ def notifications(request):
            
             status = tratar_info(data) 
             print('sai do tratar_info')
+            seg = data_hora_atual.second
+            mls = data_hora_atual.microsecond
             print(f'{seg}:{mls}')
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)

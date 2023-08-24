@@ -85,11 +85,12 @@ def tratar_info(j_dict):
     
     
     attempts = j_dict['attempts']
+    topico = j_dict['topic']
+
     print(f'entrei no tratar_info, attempts = {attempts}')
+    print(f'topico = {topico}')
     if attempts == '1' :
         print('acessando attempts 1')
-        print(f'topico = {topico}')
-        topico = j_dict['topic']
 
         tabela_refresh = Access_token.objects.get(id=1)
     
