@@ -88,6 +88,7 @@ def tratar_info(j_dict):
     print(f'entrei no tratar_info, attempts = {attempts}')
     if attempts == '1' :
         print('acessando attempts 1')
+        print(f'topico = {topico}')
         topico = j_dict['topic']
 
         tabela_refresh = Access_token.objects.get(id=1)
@@ -169,7 +170,7 @@ def tratar_info(j_dict):
 
 
             if topico == 'questions':
-                
+                print('entrando em questions')
                 j_dict = json.loads(data)
                 resource = j_dict["resource"].split("/")[-1]
                 print(resource)
@@ -197,6 +198,7 @@ def tratar_info(j_dict):
 
             else:
                 if topico == 'messages':
+                    print('entrando em messages')
                     resource = j_dict["resource"]
                     print(resource)
                     url =f"https://api.mercadolibre.com/messages/{resource}?tag=post_sale"
