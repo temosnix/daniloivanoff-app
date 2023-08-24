@@ -23,14 +23,16 @@ def notifications(request):
             print('___________________________________')
             print(f'{seg}:{mls}')
             data = json.loads(request.body)
-            formatted_json = json.dumps(data, indent=4)
-            print("JSON recebido:\n", formatted_json)
-           
-            status = tratar_info(data) 
-            print('sai do tratar_info')
-            seg2 = data_hora_atual.second
-            mls2 = data_hora_atual.microsecond
-            print(f'{seg2}:{mls2}')
+            
+            if data['attempts'] == 1 :
+                formatted_json = json.dumps(data, indent=4)
+                print("JSON recebido:\n", formatted_json)
+            
+                status = tratar_info(data) 
+                print('sai do tratar_info')
+                seg2 = data_hora_atual.second
+                mls2 = data_hora_atual.microsecond
+                print(f'{seg2}:{mls2}')
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
         
