@@ -190,7 +190,7 @@ def tratar_info(j_dict):
 
             if topico == 'questions':
                 print('entrando em questions')
-                j_dict = json.loads(data)
+                
                 resource = j_dict["resource"].split("/")[-1]
                 print(resource)
 
