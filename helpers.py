@@ -9,7 +9,7 @@ from testeapp.models import Reflesh_Tokens, Access_token
 
 
 def Renovar():
-    print("entrei em renovar")
+    
     tabela_refresh = Reflesh_Tokens.objects.get(id=1)
     
     rf_tokens = tabela_refresh.Rf_tokens
@@ -26,10 +26,10 @@ def Renovar():
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
+    #print(response.text)
     if response.status_code == 200:
+
         dados = response.json()
-        print('code 200')
         rf_novo = (dados["refresh_token"])
         ac_novo = (dados["access_token"])
 
@@ -37,7 +37,7 @@ def Renovar():
         data_str = data_atual.strftime("%Y-%m-%d")
         
         tabela_refresh.Data_refresh = datetime.strptime(data_str, "%Y-%m-%d").date()
-        print(f'inserindo a data  conteudo :{datetime.strptime(data_str, "%Y-%m-%d").date()}')
+    
         tabela_refresh.Hora_refresh = datetime.now().time()
         tabela_refresh.Rf_tokens = rf_novo
         tabela_refresh.save()
@@ -45,7 +45,7 @@ def Renovar():
 
         rt = Reflesh_Tokens.objects.get(id=1)   
         data_refresh = str(rt.Data_refresh)
-        print(f'nova data BD {data_refresh}')
+        
 
 
         tabela_access = Access_token.objects.get(id=1)
@@ -54,13 +54,13 @@ def Renovar():
 
         
     else:
-        print(response.text)
+        print(f'A autenticação do Token falhou. Cod : {response.text}')
     return ('ok')
     
 def Tempo ():
 
 
-    print('iniciando tempo')
+   
     rt = Reflesh_Tokens.objects.get(id=1)   
     data_refresh = str(rt.Data_refresh)
     data_atual = datetime.now()
