@@ -121,12 +121,14 @@ def tratar_info(j_dict):
 
             #print(response.text)
             j_dict = response.json()
-
+            id_compra = j_dict["id"]
             primeiro_item = j_dict["order_items"][0]["item"]
             item_id = primeiro_item["id"]
             item_title = primeiro_item["title"]
             quantidade = j_dict["order_items"][0]["quantity"]
-            
+            comprador = j_dict['buyer']
+            nickname = comprador['nickname']
+            nome = comprador['first_name'] + " " + comprador['last_name']
 
             date_created = j_dict['date_created']
             data_obj = datetime.strptime(date_created, "%Y-%m-%dT%H:%M:%S.%f%z")
@@ -134,6 +136,7 @@ def tratar_info(j_dict):
             dia_compra = data_obj.day
             data_hora_atual = datetime.now()
             dia_atual = data_hora_atual.day
+
             print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {item_id} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
 
             if response.status_code == 200 and dia_atual == dia_compra :
