@@ -3,6 +3,7 @@ import os
 import json
 import requests
 from requests import request
+from datetime import datetime
 from dotenv import load_dotenv
 from django.shortcuts import render
 from helpers import Tempo , tratar_info
@@ -16,6 +17,10 @@ from testeapp.models import Access_token
 def notifications(request):
     if request.method == 'POST':
         try:
+            data_hora_atual = datetime.now()
+            seg = data_hora_atual.second
+            mls = data_hora_atual.microsecond
+            print(f'{seg}:{mls}')
             data = json.loads(request.body)
             formatted_json = json.dumps(data, indent=4)
             print("JSON recebido:\n", formatted_json)
