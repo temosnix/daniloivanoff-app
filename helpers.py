@@ -90,6 +90,7 @@ def tratar_info(j_dict):
     print(f'entrei no tratar_info, attempts = {attempts}')
     print(f'topico = {topico}')
     if attempts == 1 :
+        Tempo()
         print('acessando attempts 1')
 
         tabela_refresh = Access_token.objects.get(id=1)
@@ -112,7 +113,7 @@ def tratar_info(j_dict):
             response = requests.request("GET", url, headers=headers, data=payload)
 
             print(response.text)
-
+            j_dict = response.json()
             date_created = j_dict['date_created']
             data_obj = datetime.strptime(date_created, "%Y-%m-%dT%H:%M:%S.%f%z")
             dia_compra = data_obj.day
@@ -215,5 +216,5 @@ def tratar_info(j_dict):
                 else:
                     print(f'topico nao encontrado {topico} ')
     else:
-        print('attempts não encontrado')
+        print('attempts = 2 ou nao encontrado')
     return 'ok'
