@@ -87,6 +87,7 @@ def tratar_info(j_dict):
     attempts = j_dict['attempts']
     print(f'entrei no tratar_info, attempts = {attempts}')
     if attempts == '1' :
+        print('acessando attempts 1')
         topico = j_dict['topic']
 
         tabela_refresh = Access_token.objects.get(id=1)
@@ -94,6 +95,7 @@ def tratar_info(j_dict):
         access_token = tabela_refresh.AC_token
 
         if topico == 'orders_v2':
+            print('entrando em ordem_v2')
 
             id_venda = j_dict['resource'].split("/")[-1]
             (id_venda)
@@ -209,4 +211,4 @@ def tratar_info(j_dict):
                     print(response.text)
                 else:
                     print(f'topico nao encontrado {topico} ')
-    
+    return 'ok'

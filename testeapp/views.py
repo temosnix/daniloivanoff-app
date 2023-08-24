@@ -20,11 +20,11 @@ def notifications(request):
             formatted_json = json.dumps(data, indent=4)
             print("JSON recebido:\n", formatted_json)
            
-            tratar_info(data) 
+            status = tratar_info(data) 
+            print('sai do tratar_info')
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
         
-            print('sai do tratar_info')
 
         except json.JSONDecodeError:
             # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request
