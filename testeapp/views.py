@@ -27,6 +27,7 @@ def notifications(request):
            
             status = tratar_info(data) 
             print('sai do tratar_info')
+            print(f'{seg}:{mls}')
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
         
