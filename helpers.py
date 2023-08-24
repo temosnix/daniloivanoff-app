@@ -214,4 +214,6 @@ def tratar_info(j_dict):
                     print(response.text)
                 else:
                     print(f'topico nao encontrado {topico} ')
+    else:
+        print('attempts não encontrado')
     return 'ok'
