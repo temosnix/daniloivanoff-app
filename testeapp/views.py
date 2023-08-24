@@ -17,32 +17,28 @@ from testeapp.models import Access_token
 def notifications(request):
     if request.method == 'POST':
         try:
-            data_hora_atual = datetime.now()
-            seg = data_hora_atual.second
-            mls = data_hora_atual.microsecond
-            print('___________________________________')
-            print(f'{seg}:{mls}')
+           
+        
             data = json.loads(request.body)
             
             if data['attempts'] == 1 :
-                formatted_json = json.dumps(data, indent=4)
-                print("JSON recebido:\n", formatted_json)
+
+                #formatted_json = json.dumps(data, indent=4)
+                #print("JSON recebido:\n", formatted_json)
             
                 status = tratar_info(data) 
-                print('sai do tratar_info')
-                seg2 = data_hora_atual.second
-                mls2 = data_hora_atual.microsecond
-                print(f'{seg2}:{mls2}')
+             
+               
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
         
 
         except json.JSONDecodeError:
-            # Se houver um erro ao analisar o JSON, responder com erro e status 400 Bad Request
+            
          
             return HttpResponse('Formato invalido', status=400)
     else:
-        # Responder com erro e status 405 Method Not Allowed se o método não for POST
+        
         
         return HttpResponse('Erro', status=405)
         

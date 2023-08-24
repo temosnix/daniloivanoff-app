@@ -68,21 +68,20 @@ def Tempo ():
  
     hora_bd = rt.Hora_refresh
     hora_formatada = datetime.now().time()
-    print(f'data do banco de dados {data_refresh} data atual {data_str}')
-    print(f'Hora do banco de dados {hora_bd} hora atual {hora_formatada}')
+    
     if data_refresh == data_str:
-        print(data_refresh,data_str)
+        
         segundos = (((data_atual.hour*3600) + (data_atual.minute*60) + data_atual.second) - ((rt.Hora_refresh.hour*3600) + (rt.Hora_refresh.minute*60) + rt.Hora_refresh.second)) 
         if segundos > 21600:
-            print(f'entrando em renovar com a data do mesmo dia {segundos}')
+            
             resposta = Renovar()
             
             
     else:
-        print(data_refresh,data_str)
+        
         segundos = (86400 - ((rt.Hora_refresh.hour*3600) + (rt.Hora_refresh.minute*60) + rt.Hora_refresh.second)) + ((data_atual.hour*3600) + (data_atual.minute*60) + data_atual.second)
         if segundos > 21600:
-            print(f'entrando em renovar com a data de dias diferentes {segundos}')
+       
             resposta = Renovar()
             
 
@@ -94,18 +93,16 @@ def tratar_info(j_dict):
     attempts = j_dict['attempts']
     topico = j_dict['topic']
 
-    print(f'entrei no tratar_info, attempts = {attempts}')
-    print(f'topico = {topico}')
+   
     if attempts == 1 :
         Tempo()
-        print('acessando attempts 1')
-
+        
         tabela_refresh = Access_token.objects.get(id=1)
     
         access_token = tabela_refresh.AC_token
 
         if topico == 'orders_v2':
-            print('entrando em ordem_v2')
+
 
             id_venda = j_dict['resource'].split("/")[-1]
             (id_venda)
@@ -119,7 +116,7 @@ def tratar_info(j_dict):
 
             response = requests.request("GET", url, headers=headers, data=payload)
 
-            #print(response.text)
+           
             j_dict = response.json()
             id_compra = j_dict["id"]
             primeiro_item = j_dict["order_items"][0]["item"]
@@ -140,7 +137,7 @@ def tratar_info(j_dict):
             print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {item_id} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
 
             if response.status_code == 200 and dia_atual == dia_compra :
-                print( ' codigo : 200 e compra do mesmo dia')
+                print(  '--- NOVA COMPRA --- ')
 
                 arquivo = response.json()
                 primeiro_item = arquivo["order_items"][0]["item"]
@@ -185,8 +182,7 @@ def tratar_info(j_dict):
                             response = requests.post(url, headers=headers, json=data)
                     else:
                         print(response.text)
-            else:
-                print(f'Não é um civic 2012... Cod:{response.status_code}')
+
 
 
         else:
