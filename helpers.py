@@ -121,17 +121,18 @@ def tratar_info(j_dict):
             dia_atual = data_hora_atual.day
 
             if response.status_code == 200 and dia_atual == dia_compra :
+                print( ' codigo : 200 e compra do mesmo dia')
 
                 arquivo = response.json()
-                id_compra = arquivo["id"]
                 primeiro_item = arquivo["order_items"][0]["item"]
                 id_anuncio = primeiro_item["id"]
-                comprador = arquivo['buyer']
-                date_created = arquivo['date_created']
-                nickname = comprador['nickname']
-                nome = comprador['first_name'] + " " + comprador['last_name']
 
                 if id_anuncio == 'MLB2015443547':
+                    id_compra = arquivo["id"]
+                    comprador = arquivo['buyer']
+                    date_created = arquivo['date_created']
+                    nickname = comprador['nickname']
+                    nome = comprador['first_name'] + " " + comprador['last_name']
 
                     url = f"https://api.mercadolibre.com/messages/packs/{id_compra}/sellers/34977269?tag=post_sale"
 
@@ -141,8 +142,9 @@ def tratar_info(j_dict):
                     }
 
                     response = requests.request("GET", url, headers=headers, data=payload)
-
+                    print(f'saiu um civic 2012.. tentando enviar mensagem. Cod : {response.status_code}')
                     if response.status_code == 200:
+                        print(' cod: 200, verificando se existe conversa ativa')
                         status = response.json()["conversation_status"]['status']
                         if status == 'active':
                             print('jã existe uma conversa, verifique se já foi perguntado!')
@@ -165,7 +167,7 @@ def tratar_info(j_dict):
                     else:
                         print(response.text)
             else:
-                print(f'houve um erro ao tentar buscar a venda. Erro:{response.status_code}')
+                print(f'Não é um civic 2012... Cod:{response.status_code}')
 
 
         else:
