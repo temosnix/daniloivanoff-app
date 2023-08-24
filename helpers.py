@@ -26,7 +26,7 @@ def Renovar():
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-    #print(response.text)
+    print(response.text)
     if response.status_code == 200:
 
         dados = response.json()
@@ -117,39 +117,30 @@ def tratar_info(j_dict):
             response = requests.request("GET", url, headers=headers, data=payload)
 
            
-            j_dict = response.json()
-            id_compra = j_dict["id"]
-            primeiro_item = j_dict["order_items"][0]["item"]
-            item_id = primeiro_item["id"]
-            item_title = primeiro_item["title"]
-            quantidade = j_dict["order_items"][0]["quantity"]
-            comprador = j_dict['buyer']
-            nickname = comprador['nickname']
-            nome = comprador['first_name'] + " " + comprador['last_name']
+            response_orders = response.json()           
+            data_obj = datetime.strptime(response_orders['date_created'], "%Y-%m-%dT%H:%M:%S.%f%z")
+            dia_compra = data_obj.day            
+            dia_atual = datetime.now().day
 
-            date_created = j_dict['date_created']
-            data_obj = datetime.strptime(date_created, "%Y-%m-%dT%H:%M:%S.%f%z")
-            data_compra = data_obj.strftime("%d-%m-%y")
-            dia_compra = data_obj.day
-            data_hora_atual = datetime.now()
-            dia_atual = data_hora_atual.day
-
-            print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {item_id} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
 
             if response.status_code == 200 and dia_atual == dia_compra :
+
                 print(  '--- NOVA COMPRA --- ')
 
-                arquivo = response.json()
-                primeiro_item = arquivo["order_items"][0]["item"]
-                id_anuncio = primeiro_item["id"]
+
+                id_compra = response_orders["id"]
+                
+                nome = response_orders['buyer']['first_name'] + " " + response_orders['buyer']['last_name']
+                item_title = response_orders["order_items"][0]["item"]["title"]
+                quantidade = response_orders["order_items"][0]["quantity"]
+                data_compra = data_obj.strftime("%d-%m-%y")
+                id_anuncio = response_orders["order_items"][0]["item"]["id"]
+                
+              
+                print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {id_compra} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
 
                 if id_anuncio == 'MLB2015443547':
-                    id_compra = arquivo["id"]
-                    comprador = arquivo['buyer']
-                    date_created = arquivo['date_created']
-                    nickname = comprador['nickname']
-                    nome = comprador['first_name'] + " " + comprador['last_name']
-
+                    
                     url = f"https://api.mercadolibre.com/messages/packs/{id_compra}/sellers/34977269?tag=post_sale"
 
                     payload = {}
@@ -158,7 +149,11 @@ def tratar_info(j_dict):
                     }
 
                     response = requests.request("GET", url, headers=headers, data=payload)
+
+
                     print(f'saiu um civic 2012.. tentando enviar mensagem. Cod : {response.status_code}')
+
+
                     if response.status_code == 200:
                         print(' cod: 200, verificando se existe conversa ativa')
                         status = response.json()["conversation_status"]['status']
