@@ -37,9 +37,16 @@ def Renovar():
         data_str = data_atual.strftime("%Y-%m-%d")
         
         tabela_refresh.Data_refresh = datetime.strptime(data_str, "%Y-%m-%d").date()
+        print(f'inserindo a data  conteudo :{datetime.strptime(data_str, "%Y-%m-%d").date()}')
         tabela_refresh.Hora_refresh = datetime.now().time()
         tabela_refresh.Rf_tokens = rf_novo
         tabela_refresh.save()
+
+
+        rt = Reflesh_Tokens.objects.get(id=1)   
+        data_refresh = str(rt.Data_refresh)
+        print(f'nova data BD {data_refresh}')
+
 
         tabela_access = Access_token.objects.get(id=1)
         tabela_access.AC_token = ac_novo
