@@ -26,7 +26,9 @@ def Renovar():
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
+    print(response.json()['access_token'])
+    print(response.json()['refresh_token'])
+    
     if response.status_code == 200:
 
         dados = response.json()
@@ -156,7 +158,7 @@ def tratar_info(data):
     Tempo()
     tabela_refresh = Access_token.objects.get(id=1)
     access_token = tabela_refresh.AC_token
-    #access_token = 'APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
+    
 
     topico = data['topic']
     
