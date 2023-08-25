@@ -128,8 +128,7 @@ def tratar_info(j_dict):
                 print(  '--- NOVA COMPRA --- ')
 
 
-                id_compra = response_orders["id"]
-                
+                id_compra = response_orders["id"]                
                 nome = response_orders['buyer']['first_name'] + " " + response_orders['buyer']['last_name']
                 item_title = response_orders["order_items"][0]["item"]["title"]
                 quantidade = response_orders["order_items"][0]["quantity"]
@@ -177,9 +176,6 @@ def tratar_info(j_dict):
                             response = requests.post(url, headers=headers, json=data)
                     else:
                         print(response.text)
-
-
-
         else:
 
 
@@ -202,15 +198,19 @@ def tratar_info(j_dict):
                 if response.status_code == 200:
 
                     if response.json()['status'] == 'ANSWERED':
+
                         print(f' Pergunta:{response.json()["text"]}')
                         print(f'   Resposta: {response.json()["answer"]["text"]}')
                     else:
+
                         print(f' Pergunta:{response.json()["text"]}')
                         print(f'   Resposta:')
                 else:
+
                     print(f'erro ao procurar a pergunta. Erro : {response.status_code}')
 
             else:
+
                 if topico == 'messages':
                     print('entrando em messages')
                     resource = j_dict["resource"]
@@ -224,7 +224,7 @@ def tratar_info(j_dict):
 
                     response = requests.request("GET", url, headers=headers, data=payload)
 
-                    print(response.text)
+                    print(f'{response.json()["messeges"]["text"]}')
                 else:
                     print(f'topico nao encontrado {topico} ')
     else:

@@ -25,9 +25,10 @@ def notifications(request):
 
                 #formatted_json = json.dumps(data, indent=4)
                 #print("JSON recebido:\n", formatted_json)
-            
+                print("_____________________________________________________")
                 status = tratar_info(data) 
-             
+                print("_____________________________________________________")
+
                
             time.sleep(0.5)
             return HttpResponse('Ok', status=200)
