@@ -212,20 +212,49 @@ def tratar_info(j_dict):
             else:
 
                 if topico == 'messages':
-                    print('entrando em messages')
+
+                    def pack(id):
+
+  
+                        url = f"https://api.mercadolibre.com/messages/packs/{id}/sellers/34977269?tag=post_sale"
+
+                        payload = {}
+                        headers = {
+                            'Authorization': 'Bearer APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
+                        }
+
+                        response = requests.request("GET", url, headers=headers, data=payload)
+
+                        total_msg = int(response.json()['paging']['total'])
+                        
+                        if total_msg > 10 :
+                            total_msg = 10
+                        
+
+                        for i in range(total_msg - 1, -1, -1):
+                            
+                            usuario = (response.json()['messages'][i]['from']['user_id'])
+                            if usuario == 34977269:
+
+                                print(f"  Dfast :{response.json()['messages'][i]['text']}")
+                            else:
+                                print(f"Comprador :{response.json()['messages'][i]['text']}")
+
+                        
+
+                    
                     resource = j_dict["resource"]
-                    print(resource)
+                        
                     url =f"https://api.mercadolibre.com/messages/{resource}?tag=post_sale"
 
                     payload = {}
                     headers = {
-                    'Authorization': f'Bearer {access_token}'
+                    'Authorization': 'Bearer APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
                     }
 
                     response = requests.request("GET", url, headers=headers, data=payload)
 
-                  
-                    print(response.json()['messages'][0]['text'])
+                    pack(response.json()['messages'][0]['message_resources'][0]['id'])
                 else:
                     print(f'topico nao encontrado {topico} ')
     else:
