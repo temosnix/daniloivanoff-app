@@ -127,8 +127,7 @@ def pack(id,access_token,nome):
     response = requests.request("GET", url, headers=headers, data=payload)
 
     total_msg = response.json()['paging']['total']
-    print(type(total_msg))
-    print(total_msg)
+    
     if total_msg > 10 :
         total_msg = 10
     
@@ -193,12 +192,15 @@ def tratar_info(data):
 
         response_msg = requests.request("GET", url, headers=headers, data=payload)
 
-        id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
+        if response.status_code == 200:
+            id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
 
-        resposta = dados_cliente_compra(id_pack,access_token)
-        nome = resposta['nome']
+            resposta = dados_cliente_compra(id_pack,access_token)
+            nome = resposta['nome']
 
-        pack(id_pack,access_token,nome)
+            pack(id_pack,access_token,nome)
+        else:
+            print(f'A API retornou o COD: {response.status_code}.')
 
     else:
         print(' ____________New Question____________')
