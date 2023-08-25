@@ -224,7 +224,8 @@ def tratar_info(j_dict):
 
                     response = requests.request("GET", url, headers=headers, data=payload)
 
-                    print(f'{response.json()["messeges"]["text"]}')
+                  
+                    print(response.json()['messages'][0]['text'])
                 else:
                     print(f'topico nao encontrado {topico} ')
     else:
