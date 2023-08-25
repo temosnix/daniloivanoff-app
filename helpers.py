@@ -87,27 +87,123 @@ def Tempo ():
 
     return HttpResponse(segundos)
 
-def tratar_info(j_dict):
-    
-    
-    attempts = j_dict['attempts']
-    topico = j_dict['topic']
-    print(f'entrei no attempts = 1, tentando acessar o topico {topico}')
-   
-    
-    Tempo()
-    
-    tabela_refresh = Access_token.objects.get(id=1)
 
-    access_token = tabela_refresh.AC_token
 
+
+
+
+def dados_cliente_compra(id_venda,access_token):
+
+    url = f"https://api.mercadolibre.com/orders/{id_venda}"
+
+    payload = {}
+    headers = {
+    'Authorization': f'Bearer {access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+    #print(response.text)
+    resultado = {}
+    resultado['quantidade'] = response.json()["order_items"][0]["quantity"]
+    resultado['nome']= response.json()['buyer']['first_name'] + " " + response.json()['buyer']['last_name']
+    resultado['titulo'] = item_title = response.json()["order_items"][0]["item"]["title"]
+    data_compra = datetime.strptime(response.json()['date_created'], '%Y-%m-%dT%H:%M:%S.%f%z')
+    resultado['data_compra'] = data_compra.strftime('%d/%m/%y')
+    resultado['id_anuncio'] = response.json()["order_items"][0]["item"]['id']
+
+    return (resultado)
+
+def pack(id,access_token,nome):
+
+    url = f"https://api.mercadolibre.com/messages/packs/{id}/sellers/34977269?tag=post_sale"
+
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    total_msg = int(response.json()['paging']['total'])
+    
+    if total_msg > 10 :
+        total_msg = 10
+    
+
+    for i in range(total_msg - 1, -1, -1):
+        
+        usuario = (response.json()['messages'][i]['from']['user_id'])
+        if usuario == 34977269:
+
+            print(f"  Dfast :{response.json()['messages'][i]['text']}")
+        else:
+            print(f"{nome} :{response.json()['messages'][i]['text']}")
+
+
+def tratar_info(data):
+    ''' exemplo do data.json recebido. topic pode alterar entre : orders_v2, messages e questions
+        {
+        "_id": "2827bcb2-ab15-4776-8e87-084eb8e421f8",
+        "topic": "orders_v2",
+        "resource": "/orders/2000006313601192",
+        "user_id": 34977269,
+        "application_id": 2417001236894079,
+        "sent": "2023-08-25T13:52:58.409Z",
+        "attempts": 2,
+        "received": "2023-08-25T13:51:54.759Z"
+        }'''
+
+    #Tempo()
+    #tabela_refresh = Access_token.objects.get(id=1)
+    #access_token = tabela_refresh.AC_token
+    access_token = 'APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
+
+    topico = data['topic']
+    
     if topico == 'orders_v2':
 
+        print('_________NOVA COMPRA ___________')
+        resource = data['resource'].split("/")[-1]
 
-        id_venda = j_dict['resource'].split("/")[-1]
-        (id_venda)
+        resposta = dados_cliente_compra(resource,access_token)
+
+        for chave, valor in resposta.items():
+            print(f'{chave}: {valor}')
+
+
+    elif topico == 'messages':
+        print('____________Nova Mensagem______________')
+
+        resource = data["resource"]
+            
+        url =f"https://api.mercadolibre.com/messages/{resource}?tag=post_sale"
+
+        payload = {}
+        headers = {
+        'Authorization': f'Bearer {access_token}'
+        }
+
+        response_msg = requests.request("GET", url, headers=headers, data=payload)
+
+        id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
+
+        resposta = dados_cliente_compra(id_pack,access_token)
+        nome = resposta['nome']
+
+        pack(id_pack,access_token,nome)
+
+
     
-        url = f"https://api.mercadolibre.com/orders/{id_venda}"
+
+
+
+    else:
+        print(' ____________New Question____________')
+        resource = data["resource"].split("/")[-1]
+        print(resource)
+
+
+        url = f"https://api.mercadolibre.com/questions/{resource}"
 
         payload = {}
         headers = {
@@ -116,146 +212,18 @@ def tratar_info(j_dict):
 
         response = requests.request("GET", url, headers=headers, data=payload)
 
-        
-        response_orders = response.json()           
-        data_obj = datetime.strptime(response_orders['date_created'], "%Y-%m-%dT%H:%M:%S.%f%z")
-        dia_compra = data_obj.day            
-        dia_atual = datetime.now().day
+        if response.status_code == 200:
 
+            if response.json()['status'] == 'ANSWERED':
 
-        if response.status_code == 200 and dia_atual == dia_compra :
-
-            print(  '--- NOVA COMPRA --- ')
-
-
-            id_compra = response_orders["id"]                
-            nome = response_orders['buyer']['first_name'] + " " + response_orders['buyer']['last_name']
-            item_title = response_orders["order_items"][0]["item"]["title"]
-            quantidade = response_orders["order_items"][0]["quantity"]
-            data_compra = data_obj.strftime("%d-%m-%y")
-            id_anuncio = response_orders["order_items"][0]["item"]["id"]
-            
-            
-            print(f'\n id da compra : {id_compra} \n\n data da compra: {data_compra}\n\n id do anuncio: {id_compra} \n\n titulo do anuncio: {item_title}\n\n nome do cliente :{nome}\n\n quantidade: {quantidade}\n' )
-
-            if id_anuncio == 'MLB2015443547':
-                
-                url = f"https://api.mercadolibre.com/messages/packs/{id_compra}/sellers/34977269?tag=post_sale"
-
-                payload = {}
-                headers = {
-                        'Authorization': f'Bearer {access_token}'
-                }
-
-                response = requests.request("GET", url, headers=headers, data=payload)
-
-
-                print(f'saiu um civic 2012.. tentando enviar mensagem. Cod : {response.status_code}')
-
-
-                if response.status_code == 200:
-                    print(' cod: 200, verificando se existe conversa ativa')
-                    status = response.json()["conversation_status"]['status']
-                    if status == 'active':
-                        print('jã existe uma conversa, verifique se já foi perguntado!')
-                    else:
-                        if status == 'blocked':
-
-                            url = f"https://api.mercadolibre.com/messages/action_guide/packs/{id_compra}/option"
-
-                            headers = {
-                                "Authorization": f'Bearer {access_token}',
-                                "Content-Type": "application/json"
-                            }
-
-                            data = {
-                                "option_id": "OTHER",
-                                "text": f"Olá {nome}, existe 2 tipos de amortecedor para seu carro. Me confirma se seu carro é 1.8 ou 2.0?"
-                            }
-
-                        response = requests.post(url, headers=headers, json=data)
-                else:
-                    print(response.text)
-    else:
-
-
-        if topico == 'questions':
-            print('entrando em questions')
-            
-            resource = j_dict["resource"].split("/")[-1]
-            print(resource)
-
-
-            url = f"https://api.mercadolibre.com/questions/{resource}"
-
-            payload = {}
-            headers = {
-            'Authorization': f'Bearer {access_token}'
-            }
-
-            response = requests.request("GET", url, headers=headers, data=payload)
-
-            if response.status_code == 200:
-
-                if response.json()['status'] == 'ANSWERED':
-
-                    print(f' Pergunta:{response.json()["text"]}')
-                    print(f'   Resposta: {response.json()["answer"]["text"]}')
-                else:
-
-                    print(f' Pergunta:{response.json()["text"]}')
-                    print(f'   Resposta:')
+                print(f' Pergunta:{response.json()["text"]}')
+                print(f'   Resposta: {response.json()["answer"]["text"]}')
             else:
 
-                print(f'erro ao procurar a pergunta. Erro : {response.status_code}')
-
+                print(f' Pergunta:{response.json()["text"]}')
+                print(f'   Resposta:')
         else:
 
-            if topico == 'messages':
-
-                def pack(id):
-
-
-                    url = f"https://api.mercadolibre.com/messages/packs/{id}/sellers/34977269?tag=post_sale"
-
-                    payload = {}
-                    headers = {
-                        'Authorization': 'Bearer APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
-                    }
-
-                    response = requests.request("GET", url, headers=headers, data=payload)
-
-                    total_msg = int(response.json()['paging']['total'])
-                    
-                    if total_msg > 10 :
-                        total_msg = 10
-                    
-
-                    for i in range(total_msg - 1, -1, -1):
-                        
-                        usuario = (response.json()['messages'][i]['from']['user_id'])
-                        if usuario == 34977269:
-
-                            print(f"  Dfast :{response.json()['messages'][i]['text']}")
-                        else:
-                            print(f"Comprador :{response.json()['messages'][i]['text']}")
-
-                    
-
-                
-                resource = j_dict["resource"]
-                    
-                url =f"https://api.mercadolibre.com/messages/{resource}?tag=post_sale"
-
-                payload = {}
-                headers = {
-                'Authorization': 'Bearer APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
-                }
-
-                response = requests.request("GET", url, headers=headers, data=payload)
-
-                pack(response.json()['messages'][0]['message_resources'][0]['id'])
-            else:
-                print(f'topico nao encontrado {topico} ')
+            print(f'erro ao procurar a pergunta. Erro : {response.status_code}')
   
     return 'ok'

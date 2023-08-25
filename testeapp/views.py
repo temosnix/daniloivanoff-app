@@ -21,13 +21,13 @@ def notifications(request):
         
             data = json.loads(request.body)
 
-            formatted_json = json.dumps(data, indent=4)
-            print("JSON recebido:\n", formatted_json)
+            #formatted_json = json.dumps(data, indent=4)
+            #print("JSON recebido:\n", formatted_json)
             
             if data['attempts'] == 1 :
-                print("_____________________________________________________")
+               
                 status = tratar_info(data) 
-                print("_____________________________________________________")
+                
 
                
             time.sleep(0.5)
