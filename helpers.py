@@ -28,7 +28,7 @@ def Renovar():
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.json()['access_token'])
     print(response.json()['refresh_token'])
-    
+
     if response.status_code == 200:
 
         dados = response.json()
@@ -126,8 +126,9 @@ def pack(id,access_token,nome):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    total_msg = int(response.json()['paging']['total'])
-    
+    total_msg = response.json()['paging']['total']
+    print(type(total_msg))
+    print(total_msg)
     if total_msg > 10 :
         total_msg = 10
     
@@ -198,11 +199,6 @@ def tratar_info(data):
         nome = resposta['nome']
 
         pack(id_pack,access_token,nome)
-
-
-    
-
-
 
     else:
         print(' ____________New Question____________')
