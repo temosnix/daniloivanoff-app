@@ -125,7 +125,7 @@ def pack(id,access_token,nome):
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
-
+    print(response.text)
     total_msg = response.json()['paging']['total']
     
     if total_msg > 10 :
