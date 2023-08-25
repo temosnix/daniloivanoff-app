@@ -92,7 +92,7 @@ def tratar_info(j_dict):
     
     attempts = j_dict['attempts']
     topico = j_dict['topic']
-
+    print(f'entrei no attempts = 1, tentando acessar o topico {topico}')
    
     if attempts == 1 :
         Tempo()
