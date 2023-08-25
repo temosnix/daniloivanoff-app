@@ -153,22 +153,27 @@ def tratar_info(data):
         "received": "2023-08-25T13:51:54.759Z"
         }'''
 
-    #Tempo()
-    #tabela_refresh = Access_token.objects.get(id=1)
-    #access_token = tabela_refresh.AC_token
-    access_token = 'APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
+    Tempo()
+    tabela_refresh = Access_token.objects.get(id=1)
+    access_token = tabela_refresh.AC_token
+    #access_token = 'APP_USR-2417001236894079-082507-a8c030e7678e770e9de340f612cc1ecc-34977269'
 
     topico = data['topic']
     
     if topico == 'orders_v2':
 
-        print('_________NOVA COMPRA ___________')
+
         resource = data['resource'].split("/")[-1]
 
         resposta = dados_cliente_compra(resource,access_token)
+        
+        data_atual = datetime.now()
+        data_formatada = data_atual.strftime('%d/%m/%y')
 
-        for chave, valor in resposta.items():
-            print(f'{chave}: {valor}')
+        if resposta['data_compra'] == data_formatada:
+            print('_________NOVA COMPRA ___________')
+            for chave, valor in resposta.items():
+                print(f'{chave}: {valor}')
 
 
     elif topico == 'messages':
