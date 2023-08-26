@@ -194,8 +194,8 @@ def tratar_info(data):
         }
 
         response_msg = requests.request("GET", url, headers=headers, data=payload)
-
-        if response.status_code == 200:
+        print(response_msg)
+        if response_msg.status_code == 200:
             id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
 
             resposta = dados_cliente_compra(id_pack,access_token)
@@ -203,7 +203,7 @@ def tratar_info(data):
 
             pack(id_pack,access_token,nome)
         else:
-            print(f'A API retornou o COD: {response.status_code}.')
+            print(f'A API retornou o COD: {response_msg.status_code}.')
 
     else:
         print(' ____________New Question____________')
