@@ -104,7 +104,7 @@ def dados_cliente_compra(id_venda,access_token):
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
-    #print(response.text)
+    print(response.status_code)
     resultado = {}
     resultado['quantidade'] = response.json()["order_items"][0]["quantity"]
     resultado['nome']= response.json()['buyer']['first_name'] + " " + response.json()['buyer']['last_name']
