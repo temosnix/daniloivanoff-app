@@ -105,15 +105,20 @@ def dados_cliente_compra(id_venda,access_token):
 
     response = requests.request("GET", url, headers=headers, data=payload)
     print(response.status_code)
-    resultado = {}
-    resultado['quantidade'] = response.json()["order_items"][0]["quantity"]
-    resultado['nome']= response.json()['buyer']['first_name'] + " " + response.json()['buyer']['last_name']
-    resultado['titulo'] = item_title = response.json()["order_items"][0]["item"]["title"]
-    data_compra = datetime.strptime(response.json()['date_created'], '%Y-%m-%dT%H:%M:%S.%f%z')
-    resultado['data_compra'] = data_compra.strftime('%d/%m/%y')
-    resultado['id_anuncio'] = response.json()["order_items"][0]["item"]['id']
 
-    return (resultado)
+    if response.status_code == 200:
+        resultado = {}
+
+        resultado['quantidade'] = response.json()["order_items"][0]["quantity"]
+        resultado['nome']= response.json()['buyer']['first_name'] + " " + response.json()['buyer']['last_name']
+        resultado['titulo'] = item_title = response.json()["order_items"][0]["item"]["title"]
+        data_compra = datetime.strptime(response.json()['date_created'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        resultado['data_compra'] = data_compra.strftime('%d/%m/%y')
+        resultado['id_anuncio'] = response.json()["order_items"][0]["item"]['id']
+
+        return (resultado)
+    else:
+        return 400
 
 def pack(id,access_token,nome):
 
@@ -199,9 +204,14 @@ def tratar_info(data):
             id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
 
             resposta = dados_cliente_compra(id_pack,access_token)
-            nome = resposta['nome']
+            if resposta == 400:
 
-            pack(id_pack,access_token,nome)
+                print( 'cliente nao encotrado')
+                print(response_msg.text)
+            else:
+                nome = resposta['nome']
+
+                pack(id_pack,access_token,nome)
         else:
             print(f'A API retornou o COD: {response_msg.status_code}.')
 
