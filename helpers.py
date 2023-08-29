@@ -199,7 +199,7 @@ def tratar_info(data):
         }
 
         response_msg = requests.request("GET", url, headers=headers, data=payload)
-        print(response_msg)
+        print(response_msg.status_code)
         if response_msg.status_code == 200:
             id_pack = response_msg.json()['messages'][0]['message_resources'][0]['id']
 
